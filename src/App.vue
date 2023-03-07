@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <header>
-      <!-- <router-link to="/home" style='textDecoration:none'><h1><span>Mexi</span>Ko</h1></router-link>  -->
+      <router-link to="/home" style='textDecoration:none'><h1><span>Mexi</span>Ko</h1></router-link> 
       <nav>
         <router-link to="/home"><a>Home</a></router-link> 
         <router-link to="/"><a>Menu</a></router-link> 
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-
+import $ from "jquery"
 export default {
   name: 'App',
   components:{
