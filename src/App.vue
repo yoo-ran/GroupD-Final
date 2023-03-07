@@ -1,15 +1,16 @@
 <template>
   <div id="app">
     <header>
-      <h1><span>Mexi</span>Ko</h1>
+      <!-- <router-link to="/home" style='textDecoration:none'><h1><span>Mexi</span>Ko</h1></router-link>  -->
       <nav>
         <router-link to="/home"><a>Home</a></router-link> 
         <router-link to="/"><a>Menu</a></router-link> 
         <router-link to="/cart"><a>Cart</a></router-link>
-        <router-link to="/login"><a>Login</a></router-link>
+        <router-link to="/login" @click="loginOut"><a>{{ loginFlag }}</a></router-link>
       </nav>
+      <h1>{{ msg }}</h1>
     </header>
-    <router-view />
+    <router-view @logout='logoutHandle' @addcart='sendCart'/>
     <footer>
         <h1>
           <span>Mexi</span>Ko
@@ -34,15 +35,34 @@
 
 export default {
   name: 'App',
-  components: {
+  components:{
   },
   data(){
     return{
-
+      loginFlag:"Login",
+      cartProd:{id:0,pname:"",price:0,img:""},
+      cartList:[],
+      msg:"heelo"
     }
   },
   methods:{
-
+    logoutHandle(){
+      this.loginFlag = "Logout"
+    },
+    loginOut(e){
+      switch ($(e.target).text()) {
+        case "Logout":
+          this.loginFlag = "Login"
+          this.$router.push({name:"loginpage"})
+          break;
+      
+        default:
+          break;
+      }
+    },
+    sendCart(value){
+      this.msg = value
+    }
   }
 }
 </script>

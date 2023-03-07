@@ -2,19 +2,33 @@
     <div id="login">
         <h1>Login</h1>
         <form @submit.prevent='login()'>
-            <input placeholder="Username"/>
-            <input type="password" placeholder="Password"/>
+            <input placeholder="Username" v-model="uname"/>
+            <input type="password" placeholder="Password" v-model="pass" @keyup.enter='login()'/>
             <p><a href="">Sign up</a><button type='submit'>Login</button></p>
         </form>
     </div>
 </template>
 <script>
+    import users from "../res/users.json"
+
     export default {
     name: 'LoginCompo',
     props: [],
+    data(){
+        return{
+            uname:"",
+            pass:"",
+            userList :users,
+        }
+    },      
     methods:{
         login(){
-            console.log("hey");
+            this.userList.forEach(user => {
+                if(this.uname == user.uname&&this.pass==user.pass){
+                    this.$emit('logout',this.uname)
+                    this.$router.push({name:"menupage"})
+                }
+            });
         }
     }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div id="menuPage">
+  <div id="menuPage" @addCart='sendCart'>
     <h1>Menu</h1>
     <div id="filter">
       Filter section : JAY PART
@@ -13,25 +13,43 @@
       </p>
     </div>
     <main>
-      <div id="menu" v-for="(prod,idx) in products" :key='idx'>
+      <div id="menu" v-for="(prod,idx) in products" :key='idx' @click='menucart(idx)'>
         <img :src='require(`../img/${prod.img}`)'/>
         <p>{{prod.pname}}</p>
         <span>${{ prod.price }}</span>
       </div>
     </main>
+      <menu-modal v-show="modalshow" :menuinfo='cartProds' @close='closemodal'></menu-modal>
   </div>
 </template>
 <script>
+  import MenuModal from '@/Modal/MenuModal.vue'
   import prodObj from "../res/product.json"
+  
   const products = prodObj
 
    export default {
+  components: { MenuModal },
     name: 'MenuCompo',
     props: {
     },
     data(){
       return{
-        products
+        products,
+        cartProds:{},
+        modalshow:false
+      }
+    },
+    methods:{
+      menucart(idx){
+        this.cartProds = this.products[idx]
+        this.modalshow = true
+      },
+      closemodal(){
+        this.modalshow = false
+      },
+      sendCart(value){
+        this.$emit("addcart",value)
       }
     }
 
