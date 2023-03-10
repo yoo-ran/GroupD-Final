@@ -8,12 +8,37 @@
       2. Filter : coffee, non-coffee, 
         you can use radio box, or select, whatever you want
       3. orderby : order by alphabet, price -->
-      <p>Search
-        <input type="text">
-      </p>
+
+      <div id="filter">
+  <p>Search:
+    <input type="text" v-model="searchTerm">
+  </p>
+  <p>
+    Filter:
+    <label>
+      <input type="radio" v-model="filterType" value="all" />
+      All
+    </label>
+    <label>
+      <input type="radio" v-model="filterType" value="coffee" />
+      Coffee
+    </label>
+    <label>
+      <input type="radio" v-model="filterType" value="noncoffee" />
+      Non-coffee
+    </label>
+  </p>
+  <p>Order by:
+    <select v-model="orderBy">
+      <option value="name">Name</option>
+      <option value="price">Price</option>
+    </select>
+  </p>
+</div>
+      
     </div>
     <main>
-      <div id="menu" v-for="(prod,idx) in products" :key='idx' @click='menucart(idx)'>
+      <div id="menu" v-for="(prod,idx) in filteredProducts" :key='idx' @click='menucart(idx)'>
         <img :src='require(`../img/${prod.img}`)'/>
         <p>{{prod.pname}}</p>
         <span>${{ prod.price }}</span>
@@ -28,7 +53,7 @@
   
   const products = prodObj
 
-   export default {
+  export default {
   components: { MenuModal },
     name: 'MenuCompo',
     props: {
@@ -37,7 +62,11 @@
       return{
         products,
         cartProds:{},
-        modalshow:false
+        modalshow:false,
+
+        searchTerm: '',
+        filterType: 'all',
+        orderBy: 'name'
       }
     },
     methods:{
@@ -51,7 +80,32 @@
       sendCart(value){
         this.$emit("addcart",value)
       }
+    },
+    computed: {
+      filteredProducts() {
+        let products = this.products.filter(prod => {
+          return prod.pname.toLowerCase().includes(this.searchTerm.toLowerCase());
+        });
+
+        if (this.filterType === 'coffee') {
+          products = products.filter(prod => {
+            return prod.type === 'coffee';
+          });
+        } else if (this.filterType === 'noncoffee') {
+          products = products.filter(prod => {
+            return prod.type !== 'coffee';
+          });
+        }
+
+        if (this.orderBy === 'name') {
+          products.sort((a, b) => a.pname.localeCompare(b.pname));
+        } else if (this.orderBy === 'price') {
+          products.sort((a, b) => a.price - b.price);
+        }
+
+        return products;
     }
+  }
 
 }
 </script>
