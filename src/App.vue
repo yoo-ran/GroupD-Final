@@ -10,7 +10,7 @@
       </nav>
       <h1>{{ msg }}</h1>
     </header>
-    <router-view @logout='logoutHandle' @addcart='sendCart'/>
+    <router-view @logout='logoutHandle' @addcart='sendCart' @liked='likeHandle' :liked='productList.pList'/>
     <footer>
         <h1>
           <span>Mexi</span>Ko
@@ -33,6 +33,8 @@
 
 <script>
 import $ from "jquery"
+import ProductList from './classes/prodList'
+
 export default {
   name: 'App',
   components:{
@@ -42,7 +44,9 @@ export default {
       loginFlag:"Login",
       cartProd:{id:0,pname:"",price:0,img:""},
       cartList:[],
-      msg:"heelo"
+      msg:"hello",
+      productList : new ProductList(),
+      likeList :[]
     }
   },
   methods:{
@@ -62,6 +66,11 @@ export default {
     },
     sendCart(value){
       this.msg = value
+    },
+    likeHandle(lPobj){
+      this.productList.shop(lPobj)
+      this.likeList.push(lPobj)
+      localStorage.setItem("likedProd",JSON.stringify(this.likeList))
     }
   }
 }
