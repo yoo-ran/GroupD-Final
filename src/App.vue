@@ -42,7 +42,8 @@ export default {
       loginFlag:"Login",
       cartProd:{id:0,pname:"",price:0,img:""},
       cartList:[],
-      msg:"heelo"
+      msg:"hola",
+      msg2:"hola"
     }
   },
   methods:{
@@ -61,9 +62,21 @@ export default {
       }
     },
     sendCart(value){
-      this.msg = value
-    }
-  }
+      this.msg = value;
+    },
+    // handleAddCart(cartItem){
+    //   console.log("Cart item added:", cartItem);
+    //   this.cartList.push(cartItem)
+    //   localStorage.setItem("cartList",JSON.stringify(this.cartList))
+    // }
+  },
+  // mounted(){
+  //   // Load previously saved data from local storage
+  //   const savedData = localStorage.getItem("cartList");
+  //   if (savedData) {
+  //     this.cartList = JSON.parse(savedData);
+  //   }
+  // },
 }
 </script>
 
