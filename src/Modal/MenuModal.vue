@@ -25,7 +25,7 @@
           <option value="stevia">Stevia</option>
         </select>
         <label for="shots">Number of Shots:</label>
-        <input id="shots" type="number" v-model="shots" min="1" />
+        <input id="shots" type="number" v-model="shots" min="1" max="4"/>
         <label for="toppings">Toppings:</label>
         <select id="toppings" v-model="toppings">
           <option value="none">None</option>
@@ -41,6 +41,9 @@
           <option value="medium">Medium</option>
           <option value="large">Large</option>
         </select>
+        <div>
+          <p> Calories: {{totalCalories}}</p>
+        </div>
         <button id="close" @click='close'>X</button>
         <button id='cart' @click='addCart'>Add to cart</button>
       </div>
@@ -54,6 +57,23 @@
     // props: ["menuinfo"],
     props:{menuinfo: Object}
     ,
+    // whatch:{
+    //     quantity: function(){
+    //       this.calculateCalories();
+    //     },
+    //     milkType: function(){
+    //       this.calculateCalories();
+    //     },
+    //     sweetener: function(){
+    //       this.calculateCalories();
+    //     },
+    //     shots: function(){
+    //       this.calculateCalories();
+    //     },
+    //     toppings: function(){
+    //       this.calculateCalories();
+    //     }
+    // },
     data() {
       return {
         quantity: 1,
@@ -65,6 +85,61 @@
         msg:"hola"
       };
     },
+    computed: {
+  totalCalories() {
+    let quantity= this.quantity;
+    let sweetenerCalories = 0;
+    switch (this.sweetener) {
+      case 'none':
+        sweetenerCalories = 0;
+        break;
+      case 'sugar':
+        sweetenerCalories = 16;
+        break;
+      case 'honey':
+        sweetenerCalories = 21;
+        break;
+      case 'stevia':
+        sweetenerCalories = 0;
+        break;
+      default:
+        sweetenerCalories = 0;
+    }
+    let milkCalories = (this.milkType === 'whole') ? 150 : ((this.milkType === 'skim') ? 90 : 120);
+    if (this.size === 'medium') {
+      milkCalories *= 1.2;
+    } else if (this.size === 'large') {
+      milkCalories *= 1.4;
+    }
+    let shotCalories = this.shots * 5;
+    let toppingsCalories = 0;
+    switch (this.toppings) {
+      case 'none':
+        toppingsCalories = 0;
+        break;
+      case 'ChocolateFoam':
+        toppingsCalories = 60;
+        break;
+      case 'CaramelDrizzel':
+        toppingsCalories = 40;
+        break;
+      case 'ChocolateSprinkles':
+        toppingsCalories = 70;
+        break;
+      case 'WhippedCream':
+        toppingsCalories = 120;
+        break;
+      case 'Cinnamon Powder':
+        toppingsCalories = 10;
+        break;
+      default:
+        toppingsCalories = 0;
+    }
+    let totalCalories = (sweetenerCalories + milkCalories + shotCalories + toppingsCalories)*quantity;
+    return totalCalories;
+  }
+},
+
     methods: {
       close() {
         this.$emit("close", false);
@@ -82,7 +157,61 @@
         console.log(prod);
         this.$emit("addCart", prod);
       },
-    },
+      // calculateCalories(){
+      //   //calculate the calories based on the input values
+      //   let quantity= this.quantity;
+      //   let milkCalories = (this.milkType ==='whole')? 150 : ((this.milkType==='skim')? 90:120);
+      //   if (this.size === 'medium') {
+      //     milkCalories *= 1.2;
+      //   } else if (this.size === 'large') {
+      //     milkCalories *= 1.4;
+      //   }
+      //   let sweetenerCalories = 0;
+      //     switch (this.sweetener) {
+      //     case 'none':
+      //       sweetenerCalories = 0;
+      //       break;
+      //     case 'sugar':
+      //       sweetenerCalories = 16;
+      //       break;
+      //     case 'honey':
+      //       sweetenerCalories = 21;
+      //       break;
+      //     case 'stevia':
+      //       sweetenerCalories = 0;
+      //       break;
+      //   }
+      //   let shotCalories = this.shots * 5;
+      //   let toppingsCalories = 0;
+      //     switch (this.toppings) {
+      //       case 'none':
+      //         toppingsCalories = 0;
+      //         break;
+      //       case 'ChocolateFoam':
+      //         toppingsCalories = 60;
+      //         break;
+      //       case 'CaramelDrizzel':
+      //         toppingsCalories = 40;
+      //         break;
+      //       case 'ChocolateSprinkles':
+      //         toppingsCalories = 70;
+      //         break;
+      //       case 'WhippedCream':
+      //         toppingsCalories = 120;
+      //         break;
+      //       case 'Cinnamon Powder':
+      //         toppingsCalories = 10;
+      //         break;
+      //       default:
+      //         toppingsCalories = 0;
+      //     }
+      //     let totalCalories = (sweetenerCalories + milkCalories + shotCalories + toppingsCalories)*quantity;
+      //     console.log(totalCalories);
+      //     //update the calories data property with tthe calculated value
+      //     this.calories = totalCalories;
+
+      // }
+    }
     // mounted(){
     //   console.log(this.menuinfo.img);
     // }
