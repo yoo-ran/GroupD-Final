@@ -42,7 +42,7 @@ export default {
       loginFlag:"Login",
       cartProd:{id:0,pname:"",price:0,img:""},
       cartList:[],
-      msg:"heelo"
+      msg:"hello"
     }
   },
   methods:{
