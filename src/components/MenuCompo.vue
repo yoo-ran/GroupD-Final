@@ -13,10 +13,12 @@
       </p>
     </div>
     <main>
-      <div id="menu" v-for="(prod,idx) in products" :key='idx' @click='menucart(idx)'>
-        <img :src='require(`../img/${prod.img}`)'/>
-        <p>{{prod.pname}}</p>
-        <span>${{ prod.price }}</span>
+      <div id="menu" v-for="(prod,idx) in products" :key='idx'>
+        <img :src='require(`../img/${prod.img}`)'  @click='menucart(idx)'/>
+        <div id="pcontain" >
+          <p @click='menucart(idx)'><span>{{prod.pname}}</span><span>${{ prod.price }}</span></p>
+          <p><i class="fa-regular fa-heart" @click='liked(idx,$event)'></i></p>
+          </div>
       </div>
     </main>
       <menu-modal v-show="modalshow" :menuinfo='cartProds' @close='closemodal'></menu-modal>
@@ -47,16 +49,11 @@
       },
       closemodal(){
         this.modalshow = false
-      },
-      sendCart(value){
-        console.log(value);
-        this.$emit("addcart",value);
       }
-    }
 
 }
 </script>
-<style lang='scss'>
+<style lang='scss' scoped>
 *{
   margin:0;
   padding: 0;
@@ -66,7 +63,7 @@
 }
 #menuPage{
   height: 100%;
-  background-color: $DARK_BLUE;
+  background-color: $LIGHT_BEIGE;
   padding: 5vh;
   display: flex;
   flex-direction: column;
@@ -89,11 +86,20 @@ main{
   img{
   width: 200px;
   }
+  #pcontain{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+  }
   p{
-    color: $LIGHT_BEIGE;
+    color: $NAVY;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1vh;
   }
   span{
-    color:$LIGHT_BEIGE;
+    color: $NAVY;
   }
 }
 #menu:hover{

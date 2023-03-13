@@ -10,7 +10,7 @@
       </nav>
       <h1>{{ msg }}</h1>
     </header>
-    <router-view @logout='logoutHandle' @addcart='sendCart'/>
+    <router-view @logout='logoutHandle' @addcart='sendCart' @liked='likeHandle' :liked='productList.pList'/>
     <footer>
         <h1>
           <span>Mexi</span>Ko
@@ -33,6 +33,8 @@
 
 <script>
 import $ from "jquery"
+import ProductList from './classes/prodList'
+
 export default {
   name: 'App',
   components:{
