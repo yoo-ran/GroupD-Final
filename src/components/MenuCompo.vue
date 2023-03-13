@@ -21,12 +21,13 @@
           </div>
       </div>
     </main>
-      <menu-modal v-show="modalshow" :menuinfo='cartProds' @close='closemodal'></menu-modal>
+      <menu-modal v-show="modalshow" :menuinfo='cartProds' @close='closemodal' @addCart="sendCart"></menu-modal>
   </div>
 </template>
 <script>
   import MenuModal from "../Modal/MenuModal.vue"
   import prodObj from "../res/product.json"
+  import $ from "jquery"
   
   const products = prodObj;
   export default {
@@ -38,7 +39,8 @@
       return{
         products,
         cartProds:{},
-        modalshow:false
+        modalshow:false,
+        localLike:null
         
       }
     },
@@ -49,8 +51,30 @@
       },
       closemodal(){
         this.modalshow = false
+      },
+      sendCart(value){
+        this.$emit("addcart",value)
+      },
+      liked(idx,e){
+        switch (e.target.className) {
+          case "fa-solid fa-heart":
+            e.target.className="fa-regular fa-heart"
+            break;
+          case "fa-regular fa-heart":
+            e.target.className="fa-solid fa-heart"
+            this.$emit("liked",this.products[idx])
+          break;
+        }
       }
-
+    },
+    mounted(){
+      this.localLike = JSON.parse(localStorage.getItem("likedProd"))
+      if(this.localLike!=undefined){
+        this.localLike.forEach(obj => {
+        $("i").eq(obj.id).addClass("fa-solid fa-heart")
+      });
+    }
+    }
 }
 </script>
 <style lang='scss' scoped>

@@ -2,7 +2,7 @@
   <div id="bg">
     <div id="modal">
       <div id="info">
-      <h1>menu</h1>
+      <h1>Menu</h1>
       <img id="img" v-if="menuinfo.img" :src="require(`../img/${menuinfo.img}`)" />
       <h2>{{ menuinfo.pname }}</h2>
       <h2>${{ menuinfo.price }}</h2>
@@ -218,6 +218,9 @@
   };
 </script>
 <style lang="scss" scoped>
+  h1,h2{
+    color: $NAVY;
+  }
   #bg {
     position: fixed;
     top: 0;
@@ -234,22 +237,23 @@
     background-color: $LIGHT_BEIGE;
     width: 80%;
     max-width: 800px;
-    height: 700px;
+    height: 600px;
     border-radius: 20px;
     box-shadow: 4px 4px 8px 2px #444;
     display: flex;
-    flex-direction: column;
     justify-content: space-between;
   }
   #info{
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
+    row-gap: 1vh;
+    width: 55%;
   }
   #img{
     border-radius: 10px;
-    height: 20vh;
-    width: 20vh;
+    width: 50vh;
   }
   #close{
     position: absolute;
@@ -267,17 +271,19 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 1vh;
-    padding: 5px;
+    row-gap: 0.5vh;
+    padding: 4px 0;
     overflow: auto;
+    width: 45%;
   }
   #form label {
     margin-bottom: 5px;
+    color: $NAVY;
   }
   #form input[type="number"],
   #form select,
   #form input[type="text"] {
-    width: 25%;
+    width: 40%;
     margin-right: 10px;
     border: 1px solid $NAVY;
     border-radius: 5px;

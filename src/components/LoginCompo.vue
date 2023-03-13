@@ -25,7 +25,7 @@
         login(){
             this.userList.forEach(user => {
                 if(this.uname == user.uname&&this.pass==user.pass){
-                    this.$emit('logout',this.uname)
+                    this.$emit('logout',user)
                     this.$router.push({name:"menupage"})
                 }
             });

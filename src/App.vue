@@ -10,7 +10,7 @@
       </nav>
       <h1>{{ msg }}</h1>
     </header>
-    <router-view @logout='logoutHandle' @addcart='sendCart' @liked='likeHandle' :liked='productList.pList'/>
+    <router-view @logout='logoutHandle' @addcart='sendCart' @liked='likeHandle' @del="del" :editList='productList.pList' :liked='productList.pList' :cart='productList.pList' :user='deUser' />
     <footer>
         <h1>
           <span>Mexi</span>Ko
@@ -34,6 +34,7 @@
 <script>
 import $ from "jquery"
 import ProductList from './classes/prodList'
+import CryptoJS from "crypto-js"
 
 export default {
   name: 'App',
@@ -42,15 +43,24 @@ export default {
   data(){
     return{
       loginFlag:"Login",
-      cartProd:{id:0,pname:"",price:0,img:""},
+      sessionCart:null,
       cartList:[],
       msg:"hola",
-      msg2:"hola"
+      msg2:"hola",
+      productList : new ProductList(),
+      eList:null,
+      likeList:[],
+      key:"java",
+      enUser:null,
+      deUser:null
     }
   },
   methods:{
-    logoutHandle(){
+    logoutHandle(user){
       this.loginFlag = "Logout"
+      console.log(user);
+      this.enUser = CryptoJS.AES.encrypt(JSON.stringify(user),this.key).toString()
+      sessionStorage.setItem("user",this.enUser)
     },
     loginOut(e){
       switch ($(e.target).text()) {
@@ -58,27 +68,40 @@ export default {
           this.loginFlag = "Login"
           this.$router.push({name:"loginpage"})
           break;
-      
-        default:
-          break;
+
       }
     },
     sendCart(value){
-      this.msg = value;
+      console.log(value);
+      this.cartList.push(value)
+      localStorage.setItem("cartProd",JSON.stringify(this.cartList))
     },
-    // handleAddCart(cartItem){
-    //   console.log("Cart item added:", cartItem);
-    //   this.cartList.push(cartItem)
-    //   localStorage.setItem("cartList",JSON.stringify(this.cartList))
-    // }
+    likeHandle(lPobj){
+      this.productList.shop(lPobj)
+      this.likeList.push(lPobj)
+      localStorage.setItem("likedProd",JSON.stringify(this.likeList))
+    },
+    del(idx){
+      this.productList.del(idx)
+      console.log(this.productList);
+      this.productList.pList.forEach(obj => {
+        this.cartList.push(obj)
+      });
+      localStorage.setItem("cartProd",JSON.stringify(this.cartList))
+    }
   },
-  // mounted(){
-  //   // Load previously saved data from local storage
-  //   const savedData = localStorage.getItem("cartList");
-  //   if (savedData) {
-  //     this.cartList = JSON.parse(savedData);
-  //   }
-  // },
+  mounted(){
+    this.sessionCart = JSON.parse(localStorage.getItem("cartProd"))
+    if(this.sessionCart!=undefined){
+        this.sessionCart.forEach(cPobj => {
+          this.productList.cart(cPobj)
+        });
+    }
+    this.deUser =  JSON.parse(CryptoJS.AES.decrypt(sessionStorage.getItem("user"),this.key).toString(CryptoJS.enc.Utf8))
+    if(this.deUser!=null){
+      this.loginFlag="Logout"
+    }
+  },
 }
 </script>
 
