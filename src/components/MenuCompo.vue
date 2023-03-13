@@ -2,18 +2,33 @@
   <div id="menuPage" @addCart='sendCart'>
     <h1>Menu</h1>
     <div id="filter">
-      Filter section : JAY PART
-      <!-- 
-      1. Search : if search any words, the product which include the words will be shown
-      2. Filter : coffee, non-coffee, 
-        you can use radio box, or select, whatever you want
-      3. orderby : order by alphabet, price -->
-      <p>Search
-        <input type="text">
-      </p>
+        <p>Search:
+          <input type="text" v-model="searchTerm">
+        </p>
+        <p>
+          Filter:
+          <label>
+            <input type="radio" v-model="filterType" value="all" />
+            All
+          </label>
+          <label>
+            <input type="radio" v-model="filterType" value="coffee" />
+            Coffee
+          </label>
+          <label>
+            <input type="radio" v-model="filterType" value="noncoffee" />
+            Non-coffee
+          </label>
+        </p>
+        <p>Order by:
+          <select v-model="orderBy">
+            <option value="name">Name</option>
+            <option value="price">Price</option>
+          </select>
+        </p>
     </div>
     <main>
-      <div id="menu" v-for="(prod,idx) in products" :key='idx'>
+      <div id="menu" v-for="(prod,idx) in filteredProducts" :key='idx'>
         <img :src='require(`../img/${prod.img}`)'  @click='menucart(idx)'/>
         <div id="pcontain" >
           <p @click='menucart(idx)'><span>{{prod.pname}}</span><span>${{ prod.price }}</span></p>
@@ -40,7 +55,11 @@
         products,
         cartProds:{},
         modalshow:false,
-        localLike:null
+        localLike:null,
+
+        searchTerm: '',
+        filterType: 'all',
+        orderBy: 'name'
         
       }
     },
@@ -73,6 +92,31 @@
         this.localLike.forEach(obj => {
         $("i").eq(obj.id).addClass("fa-solid fa-heart")
       });
+    }
+    },
+    computed:{
+      filteredProducts() {
+        let products = this.products.filter(prod => {
+          return prod.pname.toLowerCase().includes(this.searchTerm.toLowerCase());
+        });
+
+        if (this.filterType === 'coffee') {
+          products = products.filter(prod => {
+            return prod.type === 'coffee';
+          });
+        } else if (this.filterType === 'noncoffee') {
+          products = products.filter(prod => {
+            return prod.type !== 'coffee';
+          });
+        }
+
+        if (this.orderBy === 'name') {
+          products.sort((a, b) => a.pname.localeCompare(b.pname));
+        } else if (this.orderBy === 'price') {
+          products.sort((a, b) => a.price - b.price);
+        }
+
+        return products;
     }
     }
 }
@@ -132,4 +176,36 @@ main{
     box-shadow: 2px 2px 4px $DARK_BEIGE;
   }
 }
+#filter {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 20px;
+  margin-bottom: 8px;
+  border: 1px solid #000;
+}
+
+@media only screen and (max-width: 768px) {
+  main {
+    column-gap: 5vh;
+    row-gap: 8vh;
+  }
+
+  #menu {
+    img {
+      width: 150px;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-top: 5px;
+    }
+
+    span {
+      font-size: 1.2rem;
+      margin-top: 3px;
+    }
+  }
+}
+
 </style>
