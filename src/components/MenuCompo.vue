@@ -23,12 +23,11 @@
   </div>
 </template>
 <script>
-  import MenuModal from '@/Modal/MenuModal.vue'
+  import MenuModal from "../Modal/MenuModal.vue"
   import prodObj from "../res/product.json"
   
-  const products = prodObj
-
-   export default {
+  const products = prodObj;
+  export default {
   components: { MenuModal },
     name: 'MenuCompo',
     props: {
@@ -38,6 +37,7 @@
         products,
         cartProds:{},
         modalshow:false
+        
       }
     },
     methods:{
@@ -49,7 +49,8 @@
         this.modalshow = false
       },
       sendCart(value){
-        this.$emit("addcart",value)
+        console.log(value);
+        this.$emit("addcart",value);
       }
     }
 
