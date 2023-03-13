@@ -44,9 +44,8 @@ export default {
       loginFlag:"Login",
       cartProd:{id:0,pname:"",price:0,img:""},
       cartList:[],
-      msg:"hello",
-      productList : new ProductList(),
-      likeList :[]
+      msg:"hola",
+      msg2:"hola"
     }
   },
   methods:{
@@ -65,14 +64,21 @@ export default {
       }
     },
     sendCart(value){
-      this.msg = value
+      this.msg = value;
     },
-    likeHandle(lPobj){
-      this.productList.shop(lPobj)
-      this.likeList.push(lPobj)
-      localStorage.setItem("likedProd",JSON.stringify(this.likeList))
-    }
-  }
+    // handleAddCart(cartItem){
+    //   console.log("Cart item added:", cartItem);
+    //   this.cartList.push(cartItem)
+    //   localStorage.setItem("cartList",JSON.stringify(this.cartList))
+    // }
+  },
+  // mounted(){
+  //   // Load previously saved data from local storage
+  //   const savedData = localStorage.getItem("cartList");
+  //   if (savedData) {
+  //     this.cartList = JSON.parse(savedData);
+  //   }
+  // },
 }
 </script>
 
