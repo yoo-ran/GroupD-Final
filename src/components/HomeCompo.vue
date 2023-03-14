@@ -1,7 +1,7 @@
 <template>
   <div id="home">
     <div id="user">
-      <h1>Welcome "{{user.uname.toUpperCase()}}"</h1>
+      <h1>Welcome "{{user.fname}}"</h1>
       <p></p>
       <h5>Username: <span>{{ user.fname }} {{ user.lname }}</span></h5>
       <h5>Email : <span>{{ user.email }}</span></h5>

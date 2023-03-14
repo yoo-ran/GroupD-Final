@@ -8,9 +8,8 @@
         <router-link to="/cart"><a>Cart</a></router-link>
         <router-link to="/login" @click="loginOut"><a>{{ loginFlag }}</a></router-link>
       </nav>
-      <h1>{{ msg }}</h1>
     </header>
-    <router-view @logout='logoutHandle' @addcart='sendCart' @liked='likeHandle' @del="del" :editList='productList.pList' :liked='productList.pList' :cart='productList.pList' :user='deUser' />
+    <router-view @logout='logoutHandle' @addcart='sendCart' @liked='likeHandle' @del="del" :editList='productList.pList' :liked='productList.pList' :cart='likeList.pList' :user='deUser' />
     <footer>
         <h1>
           <span>Mexi</span>Ko
@@ -45,14 +44,14 @@ export default {
       loginFlag:"Login",
       sessionCart:null,
       cartList:[],
-      msg:"hola",
-      msg2:"hola",
       productList : new ProductList(),
       eList:null,
-      likeList:[],
+      likeList:new ProductList(),
       key:"java",
-      enUser:null,
-      deUser:null
+      enUser:"",
+      deUser:"",
+      localLike:"",
+  
     }
   },
   methods:{
@@ -77,9 +76,9 @@ export default {
       localStorage.setItem("cartProd",JSON.stringify(this.cartList))
     },
     likeHandle(lPobj){
-      this.productList.shop(lPobj)
-      this.likeList.push(lPobj)
-      localStorage.setItem("likedProd",JSON.stringify(this.likeList))
+      this.likeList.shop(lPobj)
+      let like = Object.fromEntries(this.likeList.pList)
+      localStorage.setItem("likedProd",JSON.stringify(like))
     },
     del(idx){
       this.productList.del(idx)
@@ -97,10 +96,13 @@ export default {
           this.productList.cart(cPobj)
         });
     }
-    this.deUser =  JSON.parse(CryptoJS.AES.decrypt(sessionStorage.getItem("user"),this.key).toString(CryptoJS.enc.Utf8))
-    if(this.deUser!=null){
-      this.loginFlag="Logout"
+    if(sessionStorage.getItem("user")!=null){
+      this.deUser =  JSON.parse(CryptoJS.AES.decrypt(sessionStorage.getItem("user"),this.key).toString(CryptoJS.enc.Utf8))
+      if(this.deUser!=null){
+        this.loginFlag="Logout"
+      }
     }
+    
   },
 }
 </script>

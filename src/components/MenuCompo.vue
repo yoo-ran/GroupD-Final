@@ -32,7 +32,7 @@
         <img :src='require(`../img/${prod.img}`)'  @click='menucart(idx)'/>
         <div id="pcontain" >
           <p @click='menucart(idx)'><span>{{prod.pname}}</span><span>${{ prod.price }}</span></p>
-          <p><i class="fa-regular fa-heart" @click='liked(idx,$event)'></i></p>
+          <p><i class="fa-regular fa-heart" @click='liked(prod.id,$event)' :id="prod.id"></i></p>
           </div>
       </div>
     </main>
@@ -55,7 +55,8 @@
         products,
         cartProds:{},
         modalshow:false,
-        localLike:null,
+        localLike:"",
+        id:0,
 
         searchTerm: '',
         filterType: 'all',
@@ -88,11 +89,10 @@
     },
     mounted(){
       this.localLike = JSON.parse(localStorage.getItem("likedProd"))
-      if(this.localLike!=undefined){
-        this.localLike.forEach(obj => {
-        $("i").eq(obj.id).addClass("fa-solid fa-heart")
-      });
-    }
+      for (const key in this.localLike) {
+        console.log(key);
+          $(`#${key}`).addClass("fa-solid fa-heart")
+      }
     },
     computed:{
       filteredProducts() {
@@ -126,8 +126,8 @@
   margin:0;
   padding: 0;
 }
-#filter{
-  border: 1px solid #000;
+h1{
+  color: $NAVY;
 }
 #menuPage{
   height: 100%;
@@ -182,7 +182,27 @@ main{
   align-items: center;
   padding: 20px;
   margin-bottom: 8px;
-  border: 1px solid #000;
+  border: 1px solid $LIGHT_BLUE;
+  border-radius: 7px;
+  label,p{
+    color: $DARK_BLUE;
+    font-weight: 400;
+  }
+  p{
+    width: 20%;
+  }
+  p:nth-child(2){
+    display: flex;
+    justify-content: space-between;
+  }
+  input, select{
+    border: 1px solid $DARK_BLUE;
+    border-radius: 5px;
+    background-color: rgba($color: #fff, $alpha: 0.8)
+  }
+  select{
+    width: 70%;
+  }
 }
 
 @media only screen and (max-width: 768px) {
