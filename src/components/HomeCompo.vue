@@ -33,6 +33,7 @@
     mounted(){
       let localLiked = JSON.parse(localStorage.getItem("likedProd"))
       this.liked = localLiked
+      this.user
     }
   }
 </script>
