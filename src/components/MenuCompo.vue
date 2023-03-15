@@ -90,7 +90,6 @@
     mounted(){
       this.localLike = JSON.parse(localStorage.getItem("likedProd"))
       for (const key in this.localLike) {
-        console.log(key);
           $(`#${key}`).addClass("fa-solid fa-heart")
       }
     },

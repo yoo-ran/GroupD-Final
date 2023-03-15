@@ -50,7 +50,7 @@ export default {
       key:"java",
       enUser:"",
       deUser:"",
-      localLike:"",
+      like:""
   
     }
   },
@@ -76,9 +76,13 @@ export default {
       localStorage.setItem("cartProd",JSON.stringify(this.cartList))
     },
     likeHandle(lPobj){
-      this.likeList.shop(lPobj)
-      let like = Object.fromEntries(this.likeList.pList)
-      localStorage.setItem("likedProd",JSON.stringify(like))
+      let get = JSON.parse(localStorage.getItem("likedProd"))
+      for (const key in get) {
+        this.likeList.shop(get[key])
+        }
+      this.likeList.shop(lPobj)//
+      this.like = Object.fromEntries(this.likeList.pList)//
+      localStorage.setItem("likedProd",JSON.stringify(this.like))//
     },
     del(idx){
       this.productList.del(idx)
@@ -90,6 +94,7 @@ export default {
     }
   },
   mounted(){
+
     this.sessionCart = JSON.parse(localStorage.getItem("cartProd"))
     if(this.sessionCart!=undefined){
         this.sessionCart.forEach(cPobj => {
