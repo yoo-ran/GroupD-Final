@@ -20,5 +20,5 @@
     {"id":18,"pname":"Earlgrey","price":4.5,"img":"earlgrey.png"},
     {"id":19,"pname":"English Breakfast","price":5.5,"img":"englichbreakfast.png"},
     {"id":20,"pname":"Greentea Latte","price":6,"img":"greentealatte.png"},
-    {"id":20,"pname":"Chai Latte","price":3.5,"img":"chailatte.png"}
+    {"id":21,"pname":"Chai Latte","price":3.5,"img":"chailatte.png"}
 ]

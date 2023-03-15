@@ -101,6 +101,7 @@ export default {
           this.productList.cart(cPobj)
         });
     }
+    
     if(sessionStorage.getItem("user")!=null){
       this.deUser =  JSON.parse(CryptoJS.AES.decrypt(sessionStorage.getItem("user"),this.key).toString(CryptoJS.enc.Utf8))
       if(this.deUser!=null){
