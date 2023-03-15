@@ -201,6 +201,7 @@ main{
   }
   select{
     width: 70%;
+    color: $DARK_BLUE;
   }
 }
 

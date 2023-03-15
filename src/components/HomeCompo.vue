@@ -8,32 +8,43 @@
       <h5>Birth of Date: <span>{{ user.bod }}</span></h5>
     </div>
     <main> 
-      <div>
         <h2>Favorite Item</h2>
-      </div>
       <section>
         <div id="fav"  v-for="(p,idx) in liked" :key='idx'>
             <img :src='require(`../img/${p.img}`)'/>
-              <p><span>{{p.pname}}</span><span>${{ p.price }}</span></p>
+            <p><span>{{p.pname}}</span><span>${{ p.price }}</span></p>
+            <p><i class="fa-solid fa-heart" @click='dislike(p.id,$event)'></i></p>
         </div>
       </section>
     </main>
   </div>
 </template>
 <script>
+    import $ from "jquery"
    export default {
     name: 'HomeCompo',
     props: ["user"],
     data(){
       return{
-        liked:null,
-        deUser:null
+        liked:""
+      }
+    },
+    methods:{
+      dislike(id,e){
+        $(e.target).parent().parent().remove()
+        e.target.className = "fa-regular fa-heart"
+        let like = JSON.parse(localStorage.getItem("likedProd"))
+        for (const key in like) {
+            if(key==id){
+              delete like[key];
+            }
+        }
+        localStorage.setItem("likedProd",JSON.stringify(like))
       }
     },
     mounted(){
       let localLiked = JSON.parse(localStorage.getItem("likedProd"))
       this.liked = localLiked
-      this.user
     }
   }
 </script>
@@ -73,6 +84,7 @@ main{
   padding: 5vh 0;
   display: flex;
   flex-direction: column;
+  align-items: center;
   row-gap: 1vh;
   img{
     width: 200px
@@ -85,7 +97,8 @@ main{
 }
 section{
   display: flex;
-  justify-content: left;
+  flex-wrap: wrap;
+  justify-content: center;
   column-gap: 5vh;
 }
 
