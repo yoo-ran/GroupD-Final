@@ -64,8 +64,10 @@ export default {
     loginOut(e){
       switch ($(e.target).text()) {
         case "Logout":
-          this.loginFlag = "Login"
-          this.$router.push({name:"loginpage"})
+          this.loginFlag = "Login";
+          this.$router.push({name:"loginpage"});
+          sessionStorage.clear();
+          localStorage.clear();
           break;
 
       }
