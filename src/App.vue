@@ -9,7 +9,8 @@
         <router-link to="/login" @click="loginOut"><a>{{ loginFlag }}</a></router-link>
       </nav>
     </header>
-    <router-view @logout='logoutHandle' @addcart='sendCart' @liked='likeHandle' @del="del" :editList='productList.pList' :liked='productList.pList' :cart='likeList.pList' :user='deUser' />
+    <!-- <router-view @logout='logoutHandle' @addcart='sendCart' @liked='likeHandle' @del="del" :editList='productList.pList' :liked='productList.pList' :cart='likeList.pList' :user='deUser' /> -->
+    <router-view @logout='logoutHandle' @addcart='sendCart' @liked='likeHandle' @del="del" :editList='productList.pList' :liked='productList.pList' :cart='productList.pList' :user='deUser' />
     <footer>
         <h1>
           <span>Mexi</span>Ko
@@ -73,9 +74,14 @@ export default {
       }
     },
     sendCart(value){
-      console.log(value);
-      this.cartList.push(value)
-      localStorage.setItem("cartProd",JSON.stringify(this.cartList))
+      // console.log(value);
+      // this.cartList.push(value)
+      // localStorage.setItem("cartProd",JSON.stringify(this.cartList))
+        console.log(value);
+        this.sessionCart = JSON.parse(sessionStorage.getItem('cartProd')) || []; // retrieve cart items from session, or create an empty array if none exist
+        this.sessionCart.push(value); // add new item to cart
+        sessionStorage.setItem('cartProd', JSON.stringify(this.sessionCart)); // store updated cart in session
+        this.cartList = JSON.parse(sessionStorage.getItem('cartProd')); // update cart list from session storage
     },
     likeHandle(lPobj){
       let get = JSON.parse(localStorage.getItem("likedProd"))
@@ -96,8 +102,25 @@ export default {
     }
   },
   mounted(){
+      ///////////////////////////////////////
+    this.sessionCart = JSON.parse(sessionStorage.getItem('cartProd')) || [];
+    // this.sessionCart = JSON.parse(localStorage.getItem("cartProd"))
+    this.cartList = this.sessionCart; // set cartList to the items retrieved from session storage
 
-    this.sessionCart = JSON.parse(localStorage.getItem("cartProd"))
+    // display the cart items on the page
+    this.cartList.forEach(cartItem => {
+      this.productList.cart(cartItem);
+    });
+
+    if (this.sessionCart != undefined) {
+      this.sessionCart.forEach(cPobj => {
+        this.productList.cart(cPobj)
+      });
+    }
+
+
+
+    // this.sessionCart = JSON.parse(localStorage.getItem("cartProd"))
     if(this.sessionCart!=undefined){
         this.sessionCart.forEach(cPobj => {
           this.productList.cart(cPobj)
