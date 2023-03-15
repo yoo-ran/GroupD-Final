@@ -29,7 +29,7 @@
     </div>
     <main>
       <div id="menu" v-for="(prod,idx) in filteredProducts" :key='idx'>
-        <img :src='require(`../img/${prod.img}`)'  @click='menucart(idx)'/>
+        <img :src='require(`../img/${prod.img}`)'  @click='menucart(prod.id)'/>
         <div id="pcontain" >
           <p @click='menucart(idx)'><span>{{prod.pname}}</span><span>${{ prod.price }}</span></p>
           <p><i class="fa-regular fa-heart" @click='liked(prod.id,$event)' :id="prod.id"></i></p>
