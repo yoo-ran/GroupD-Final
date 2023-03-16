@@ -152,9 +152,7 @@
           }
           this.localArr.push(cart)
         });
-        console.log(this.cart);
-        console.log(this.localArr);
-        localStorage.setItem("cartProd",JSON.stringify(this.localArr))
+        sessionStorage.setItem("cartProd",JSON.stringify(this.localArr))
       },
       alltotal(){
         let sum = 0
@@ -165,11 +163,6 @@
       }
     },  
     mounted(){
-      console.log(this.cart);
-      // // console.log(this.editList)
-      // this.local = JSON.parse(localStorage.getItem("cartProd"))
-      // console.log(this.local);
-
     }
   }
 </script>

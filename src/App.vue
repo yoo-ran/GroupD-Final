@@ -3,9 +3,9 @@
     <header>
       <router-link to="/home" style='textDecoration:none'><h1><span>Mexi</span>Ko</h1></router-link> 
       <nav>
-        <router-link to="/home"><a>Home</a></router-link> 
         <router-link to="/"><a>Menu</a></router-link> 
-        <router-link to="/cart"><a>Cart</a></router-link>
+        <router-link to="/cart"><a><i class="fa-solid fa-cart-shopping" style="padding-right: 5px;"></i>Cart</a></router-link>
+        <router-link to="/home"><a>My page</a></router-link> 
         <router-link to="/login" @click="loginOut"><a>{{ loginFlag }}</a></router-link>
       </nav>
     </header>
@@ -100,7 +100,7 @@ export default {
       this.productList.pList.forEach(obj => {
         this.cartList.push(obj)
       });
-      localStorage.setItem("cartProd",JSON.stringify(this.cartList))
+      sessionStorage.setItem("cartProd",JSON.stringify(this.cartList))
     }
   },
   mounted(){
@@ -110,9 +110,9 @@ export default {
       this.cartList = this.sessionCart; // set cartList to the items retrieved from session storage
 
     // display the cart items on the page
-    this.cartList.forEach(cartItem => {
-      this.productList.cart(cartItem);
-    });
+    // this.cartList.forEach(cartItem => {
+    //   this.productList.cart(cartItem);
+    // });
 
     if(this.sessionCart!=undefined){
         this.sessionCart.forEach(cPobj => {
