@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <header>
-      <router-link to="/home" style='textDecoration:none'><h1><span>Mexi</span>Ko</h1></router-link> 
+      <router-link to="/" style='textDecoration:none'><h1><span>Mexi</span>Ko</h1></router-link> 
       <nav>
         <router-link to="/"><a>Menu</a></router-link> 
         <router-link to="/cart"><a><i class="fa-solid fa-cart-shopping" style="padding-right: 5px;"></i>Cart</a></router-link>

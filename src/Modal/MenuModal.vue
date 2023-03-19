@@ -42,7 +42,7 @@
           <option value="large">Large</option>
         </select>
         <div>
-          <p> Calories: {{totalCalories}}</p>
+          <p id="calorie"> Calories: {{totalCalories}}</p>
         </div>
         <button id="close" @click='close'>X</button>
         <button id='cart' @click='addCart'>Add to cart</button>
@@ -82,7 +82,8 @@
         shots: 1,
         toppings: "none",
         size: "medium",
-        msg:"hola"
+        msg:"hola",
+        user:""
       };
     },
     computed: {
@@ -145,7 +146,7 @@
         this.$emit("close", false);
       },
       addCart(){
-        let prod = {
+         if(this.user!=null){ let prod = {
           ...this.menuinfo,
           quantity: this.quantity,
           milkType: this.milkType,
@@ -153,9 +154,11 @@
           shots: this.shots,
           toppings: this.toppings,
           size: this.size,
-        };
-        console.log(prod);
-        this.$emit("addCart", prod);
+          };
+          this.$emit("addCart", prod);}else{
+            this.$router.push({name:"loginpage"})
+          }
+      
       },
       // calculateCalories(){
       //   //calculate the calories based on the input values
@@ -211,10 +214,11 @@
       //     this.calories = totalCalories;
 
       // }
+    },
+    mounted(){
+      this.user = sessionStorage.getItem("user")
+      console.log(this.user);
     }
-    // mounted(){
-    //   console.log(this.menuinfo.img);
-    // }
   };
 </script>
 <style lang="scss" scoped>
@@ -309,5 +313,9 @@
     &:hover {
       background-color: darken($NAVY, 10%);
     }
+  }
+  #calorie{
+    color: $NAVY;
+    font-weight: 600;
   }
 </style>

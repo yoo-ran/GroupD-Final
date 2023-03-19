@@ -80,6 +80,9 @@ h1,h2,h5{
     font-weight: 300;
   }
 }
+i{
+  cursor: pointer;
+}
 main{
   background-color: $LIGHT_BEIGE;
   padding: 5vh 0;

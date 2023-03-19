@@ -2,7 +2,7 @@
     <div id="login">
         <h1>Login</h1>
         <form @submit.prevent='login()'>
-            <input placeholder="Username" v-model="uname"/>
+            <input placeholder="Username" v-model="uname">
             <input type="password" placeholder="Password" v-model="pass" @keyup.enter='login()'/>
             <p><a href="">Sign up</a><button type='submit'>Login</button></p>
         </form>
@@ -39,7 +39,7 @@
     flex-direction: column;
     align-items: center;
     row-gap: 6vh;
-    height: 380px;
+    height: 390px;
     padding: 4vh 0;
 }
 h1{

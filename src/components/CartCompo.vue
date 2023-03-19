@@ -106,7 +106,7 @@
           </div>
         </div>
       </div>
-        
+      
         
     </div>
 </template>
@@ -123,7 +123,7 @@
         esize:"medium",
         esweetener:"none",
         etoppings:"none",
-        localArr:[]
+        localArr:[],
       }
     },
     methods:{
@@ -172,6 +172,7 @@
     flex-direction: column;
     align-items: center;
     row-gap: 5vh;
+    height: 390px;
     h1{
       color: $NAVY;
     }
